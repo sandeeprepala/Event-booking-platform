@@ -5,13 +5,15 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { Theatre,Show } from "../models/theatre.model.js";
 import sendEmail from '../utils/sendEmail.js'; // adjust path if needed
 import {User} from '../models/user.model.js'; // adjust path if needed
-
+import QRCode from "qrcode";
 
 //book a ticket for a show
 const bookShow = asyncHandler(async (req, res) => {
   const { theatreId, showId, selectedSeats } = req.body;
   console.log("Received theatreId:", theatreId); // debug
   const userId = req.user._id;
+
+  
 
   const theatre = await Theatre.findById(theatreId); // ✅ FIXED HERE
   console.log("Found theatre:", theatre); // debug
@@ -27,6 +29,8 @@ const bookShow = asyncHandler(async (req, res) => {
   show.bookedSeats.push(...selectedSeats);
   await theatre.save();
 
+  
+
   const newBooking = await Booking.create({
     userId,
     theatreId,
@@ -38,11 +42,33 @@ const bookShow = asyncHandler(async (req, res) => {
   // ✅ Send confirmation email
   const user = await User.findById(userId); // Make sure you have User model
   const seatList = selectedSeats.join(', ');
+  const qrData = `Theatre: ${theatre.name}\nShow Time: ${show.showSlot}\nSeats: ${seatList}`;
+  // Generate QR code as Data URL
+  const qrCodeDataUrl = await QRCode.toDataURL(qrData);
 
+  const base64Data = qrCodeDataUrl.replace(/^data:image\/png;base64,/, "");
+const qrBuffer = Buffer.from(base64Data, "base64");
   await sendEmail(
     user.email,
     'Bookify - Ticket Confirmation 🎟️',
-    `Hello ${user.username},\n\nYour booking was successful!\n\nTheatre: ${theatre.name}\nShow Time: ${show.showSlot}\nSeats: ${seatList}\n\nEnjoy your show!\n\n- Bookify Team`
+    `Hello ${user.username},\n\nYour booking was successful!\n\nTheatre: ${theatre.name}\nShow Time: ${show.showSlot}\nSeats: ${seatList}\n\nEnjoy your show!\n\n- Bookify Team`,
+    `
+      <p>Hello ${user.username},</p>
+      <p>Your booking was successful!</p>
+      <p><strong>Theatre:</strong> ${theatre.name}<br/>
+         <strong>Show Time:</strong> ${show.showSlot}<br/>
+         <strong>Seats:</strong> ${seatList}</p>
+      <p>Scan this QR code at entry:</p>
+      <img src="cid:qrCodeImage" alt="QR Code" />
+      <p>Enjoy your show!<br/>- Bookify Team</p>
+    `,
+    [
+    {
+      filename: "qrcode.png",
+      content: qrBuffer,
+      cid: "qrCodeImage" // same as in the img src above
+    }
+  ]
   );
   
   res.status(201).json(new ApiResponse(201, newBooking, 'Booking successful'));
