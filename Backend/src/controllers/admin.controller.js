@@ -8,6 +8,8 @@ import Booking from "../models/booking.model.js";
 import mongoose from "mongoose";
 import { Show } from "../models/theatre.model.js";
 import { Theatre } from "../models/theatre.model.js";
+import sendEmail from "../utils/sendEmail.js"; // You need a mail utility
+
 
 // functions for a  admin 
 //1. Create an event
@@ -174,7 +176,52 @@ const totalEventWiseRevenue = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, totalAmount, "Total revenue fetched successfully"));
 });
 
+const sendZoomLinkEmail = asyncHandler(async (req, res) => {
+    const { theatreId, showId, zoomLink } = req.body;
 
+    if (!theatreId || !showId || !zoomLink) {
+        throw new ApiError("Theatre, Show, and Zoom link are required", 400);
+    }
 
+    // Find the theatre containing the show
+    const theatre = await Theatre.findById(theatreId);
+    if (!theatre) {
+        throw new ApiError("Theatre not found", 404);
+    }
 
-export {createEvent, editEvent, deleteEvent, getAllEventsForAdmins,totalEventWiseRevenue};
+    // Find the show in the theatre's shows array
+    const show = theatre.shows.id(showId);
+    if (!show) {
+        throw new ApiError("Show not found in this theatre", 404);
+    }
+
+    // Find all bookings for this show
+    const bookings = await Booking.find({ showId: showId });
+    if (!bookings.length) {
+        throw new ApiError("No bookings found for this show", 404);
+    }
+
+    // Get user emails
+    const userIds = bookings.map(b => b.userId);
+    const users = await User.find({ _id: { $in: userIds } });
+    const emails = users.map(u => u.email);
+    console.log("Sending to emails:", emails);
+
+    if (!emails.length) {
+    throw new ApiError("No user emails found for this show", 404);
+}
+
+    // Send email to each user
+    for (const email of emails) {
+        if (!email) continue;
+        await sendEmail(
+            email,
+            "Zoom Link for Your Show",
+            `Here is your Zoom link for the show: ${zoomLink}`
+        );
+    }
+
+    res.status(200).json(new ApiResponse(200, null, "Zoom link sent to all booked users"));
+});
+
+export {createEvent, editEvent, deleteEvent, getAllEventsForAdmins,totalEventWiseRevenue,sendZoomLinkEmail};

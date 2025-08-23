@@ -58,10 +58,10 @@ const Events = () => {
       
 
       <div className="events-heading">
-        <h3>Movies in your City</h3>
+        <h3>Events in your City</h3>
         <input className='search'
          type="text"
-          placeholder='Search Movies 🔍︎'
+          placeholder='Search Events 🔍︎'
           value={search}
           onChange={e=>setSearch(e.target.value)}/>
         

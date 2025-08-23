@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createEvent, editEvent, getAllEventsForAdmins,totalEventWiseRevenue } from "../controllers/admin.controller.js";
+import { createEvent, editEvent, getAllEventsForAdmins,totalEventWiseRevenue,sendZoomLinkEmail } from "../controllers/admin.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { isAdmin } from "../middlewares/isAdmin.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -10,5 +10,6 @@ adminRouter.route("/edit-event/:eventId").put(verifyJWT, isAdmin, upload.single(
 adminRouter.route("/events").get(verifyJWT, isAdmin, getAllEventsForAdmins);
 // adminRouter.route("/events").get(verifyJWT, isAdmin, getAllEventsForUsers);
 adminRouter.route('/revenue').post(verifyJWT, isAdmin, totalEventWiseRevenue);
+adminRouter.route("/sendLink").post(verifyJWT, isAdmin, sendZoomLinkEmail);
 
 export default adminRouter;

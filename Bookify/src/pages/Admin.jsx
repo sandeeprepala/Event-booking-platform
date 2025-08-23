@@ -4,6 +4,7 @@ import AddShowForm from './AddShowForm';
 import DeleteShowButton from './DeleteShowButton';
 import '../styles/Admin.css';
 import EventRevenue from './EventRevenue';
+import AdminZoomLinkSender from './AdminZoomLinkSender';
 
 const Admin = () => {
   const [selectedTheatreId, setSelectedTheatreId] = useState('');
@@ -19,6 +20,7 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
+      <AdminZoomLinkSender/>
       <div className="head">
         <h2>Add and Delete Shows in Specified Theatre</h2>
         <div className="controls">
