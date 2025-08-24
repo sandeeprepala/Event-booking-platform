@@ -1,7 +1,8 @@
-// PaymentButton.jsx
 import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
 
 const PaymentButton = ({ amount, bookingData }) => {
+
   const handlePayment = async () => {
     try {
       // 1. Create order on backend
@@ -15,28 +16,35 @@ const PaymentButton = ({ amount, bookingData }) => {
 
       // 2. Configure Razorpay Checkout
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID, // or use directly from .env
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: amount * 100,
         currency: "INR",
         name: "Bookify",
         description: "Ticket Booking Payment",
         order_id,
         handler: async function (response) {
-          const verifyRes = await axios.post(
-            "http://localhost:5000/api/v1/payments/verify-payment",
-            {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            },
-            { withCredentials: true }
-          );
+          try {
+            const verifyRes = await axios.post(
+              "http://localhost:5000/api/v1/payments/verify-payment",
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+              { withCredentials: true }
+            );
 
-          if (verifyRes.data.success) {
-            alert("Payment Successful!");
+            if (verifyRes.data.success) {
+              toast.success("Payment Successful! 🎉"); // ✅ replaced alert
 
-            // 🔁 Optionally update booking status here
-            // await axios.post("/api/v1/bookings/confirm", { bookingData });
+              // Optionally update booking status here
+              // await axios.post("/api/v1/bookings/confirm", { bookingData });
+            } else {
+              toast.error("Payment verification failed!");
+            }
+          } catch (err) {
+            console.error("Payment verification error:", err);
+            toast.error("Payment verification failed!");
           }
         },
         prefill: {
@@ -52,14 +60,17 @@ const PaymentButton = ({ amount, bookingData }) => {
       rzp.open();
     } catch (error) {
       console.error("Payment error:", error);
-      alert("Payment failed. Try again.");
+      toast.error("Payment failed. Try again."); // ✅ replaced alert
     }
   };
 
   return (
-    <button onClick={handlePayment} className="btn btn-primary">
-      Pay ₹{amount}
-    </button>
+    <>
+      <Toaster position="top-right" reverseOrder={false} /> {/* 🔹 Toast container */}
+      <button onClick={handlePayment} className="btn btn-primary">
+        Pay ₹{amount}
+      </button>
+    </>
   );
 };
 

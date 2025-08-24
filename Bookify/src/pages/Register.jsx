@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import '../styles/register.css'; // Assuming you have a CSS file for styling
+import '../styles/register.css';
 import { useNavigate } from 'react-router-dom';
-
-
+import { Toaster, toast } from "react-hot-toast"; // Import toast
 
 const Register = () => {
   const navigate = useNavigate();
@@ -14,7 +13,6 @@ const Register = () => {
     city: '',
     role: '',
   });
-  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -23,23 +21,18 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/v1/users/register', {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        city: formData.city,
-        role: formData.role,
-      });
-      setMessage('Registration successful! You can now log in.');
-      navigate('/login'); // redirects to login page
+      const res = await axios.post('/api/v1/users/register', formData);
 
+      toast.success('Registration successful! You can now log in.'); // 🔥 Success toast
+      navigate('/login'); // Redirect to login page
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Registration failed.');
+      toast.error(err.response?.data?.message || 'Registration failed.'); // 🔥 Error toast
     }
   };
 
   return (
     <div className="auth-page">
+      <Toaster position="top-right" reverseOrder={false} /> {/* Toast container */}
       <div className="auth-card">
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
@@ -68,7 +61,6 @@ const Register = () => {
             required
           />
           <input
-            
             type="text"
             name="city"
             placeholder="City"
@@ -77,7 +69,6 @@ const Register = () => {
             required
           />
           <select
-           
             name="role"
             value={formData.role}
             onChange={handleChange}
@@ -88,11 +79,10 @@ const Register = () => {
             </option>
             <option value="user">User</option>
             <option value="admin">Admin</option>
-            {/* add more roles if needed */}
           </select>
           <button type="submit">Register</button>
         </form>
-        {message && <p style={{ marginTop: '1rem', color: 'green' }}>{message}</p>}
+
         <p className="switch-text">
           Already have an account? <a href="/login">Login</a>
         </p>

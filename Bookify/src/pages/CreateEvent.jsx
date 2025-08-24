@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/CreateEvent.css'; // Import your CSS
+import '../styles/CreateEvent.css'; 
+import { Toaster, toast } from "react-hot-toast";
 
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,7 @@ const CreateEvent = () => {
 
     if (!coverImage) {
       setMessage("Please upload a cover image.");
+      toast.error("Please upload a cover image."); // 🔥 show toast
       return;
     }
 
@@ -46,6 +48,7 @@ const CreateEvent = () => {
 
       if (!token) {
         setMessage("Authentication token missing.");
+        toast.error("Authentication token missing."); // 🔥 show toast
         return;
       }
 
@@ -53,8 +56,7 @@ const CreateEvent = () => {
       Object.entries(formData).forEach(([key, value]) => {
         form.append(key, value);
       });
-      form.append('coverImage', coverImage); // name must match multer
-    //   console.log("Form data being sent:", formData, coverImage);
+      form.append('coverImage', coverImage);
 
       const response = await axios.post(
         '/api/v1/admin/create-event',
@@ -66,7 +68,11 @@ const CreateEvent = () => {
           }
         }
       );
-      setMessage(response.data.message || "Event created successfully!");
+
+      const successMsg = response.data.message || "Event created successfully!";
+      setMessage(successMsg);
+      toast.success(successMsg); // 🔥 success toast
+
       setFormData({
         title: '',
         description: '',
@@ -78,7 +84,9 @@ const CreateEvent = () => {
       setCoverImage(null);
     } catch (error) {
       console.error("Error creating event:", error);
-      setMessage(error.response?.data?.message || "Server error while creating event.");
+      const errorMsg = error.response?.data?.message || "Server error while creating event.";
+      setMessage(errorMsg);
+      toast.error(errorMsg); // 🔥 error toast
     }
   };
 
@@ -89,7 +97,10 @@ const CreateEvent = () => {
   return (
     <div className="event-form-container">
       <h2>Create Event</h2>
-      {message && <p className="message">{message}</p>}
+
+      {/* Toast container must be rendered once */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
         <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange}></textarea>

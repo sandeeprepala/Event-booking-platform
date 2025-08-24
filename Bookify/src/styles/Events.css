@@ -111,3 +111,9 @@
   font-weight:900;
   box-shadow: 0 4px 12px rgba(0, 0, 12, 0.275);
 }
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px; /* or any height */
+}

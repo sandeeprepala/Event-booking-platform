@@ -2,38 +2,42 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/login.css';
+import { Toaster, toast } from "react-hot-toast"; // Import toast
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post('/api/v1/users/login', {
-      email: formData.email,
-      password: formData.password,
-    });
+    e.preventDefault();
+    try {
+      const res = await axios.post('/api/v1/users/login', {
+        email: formData.email,
+        password: formData.password,
+      });
 
-    const { user, accessToken } = res.data.data;
+      const { user, accessToken } = res.data.data;
 
-    localStorage.setItem('bookifyUser', JSON.stringify({ user, accessToken }));
-    
+      localStorage.setItem('bookifyUser', JSON.stringify({ user, accessToken }));
 
-    // Redirect to homepage
-    navigate('/');
-  } catch (err) {
-    setMessage(err.response?.data?.message || 'Login failed.');
-    console.log(err);
-  }
-};
+      toast.success("Login successful!");
+setTimeout(() => {
+  navigate('/');
+}, 1000); // wait 1 second for toast to show
+
+    } catch (err) {
+      console.log(err);
+      toast.error(err.response?.data?.message || 'Login failed.'); // 🔥 Error toast
+    }
+  };
+
   return (
     <div className="auth-page">
+      <Toaster position="top-right" reverseOrder={false} /> {/* Render once */}
       <div className="auth-card">
         <h2>Login to Bookify</h2>
         <form onSubmit={handleSubmit}>
@@ -55,7 +59,6 @@ const Login = () => {
           />
           <button type="submit">Login</button>
         </form>
-        {message && <p style={{ marginTop: '1rem', color: 'green' }}>{message}</p>}
         <p className="switch-text">
           Don't have an account? <a href="/register">Register</a>
         </p>
