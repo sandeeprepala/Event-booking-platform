@@ -7,7 +7,7 @@ const app = express();
 import cors from "cors";
 
 app.use(cors({
-  origin:'*', // your frontend port
+  origin:'https://event-booking-platform-pink.vercel.app', // your frontend port
   credentials: true               // ✅ allow sending cookies
 }));
 
