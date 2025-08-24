@@ -1,12 +1,10 @@
-# 🎫 EventMaster Pro - Complete Event Booking Platform
+# 🎫 Complete Event Booking Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?logo=mongodb&logoColor=white)](https://mongodb.com/)
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)](https://expressjs.com/)
-
-> **🏆 Hackathon Winner** - A comprehensive event booking and management platform built with MERN stack
 
 ## 📋 Table of Contents
 
@@ -52,8 +50,6 @@ Traditional event management involves multiple disconnected tools for registrati
 - **✉️ Communication Hub**
   - Automated email notifications
   - Virtual event link distribution
-  - Custom messaging templates
-  - Bulk communication tools
 
 ### 👥 User Features
 - **🔍 Event Discovery**
@@ -84,47 +80,21 @@ Traditional event management involves multiple disconnected tools for registrati
 
 ### Frontend
 - **React 18** - Modern UI library with hooks
-- **Material-UI** - Component library for consistent design
-- **Redux Toolkit** - State management
 - **React Router** - Client-side routing
 - **Axios** - HTTP client
-- **Socket.io-client** - Real-time updates
 
 ### Backend
 - **Node.js** - Runtime environment
 - **Express.js** - Web framework
 - **MongoDB** - NoSQL database
 - **Mongoose** - MongoDB object modeling
-- **Socket.io** - Real-time communication
 - **JWT** - Authentication
 
 ### Payment & Integration
-- **Stripe API** - Payment processing
-- **PayPal SDK** - Alternative payments
+- **Razorpay API** - Payment processing
 - **Zoom API** - Virtual meetings
 - **Nodemailer** - Email service
 - **QR Code Generator** - Ticket generation
-
-### DevOps & Tools
-- **Docker** - Containerization
-- **GitHub Actions** - CI/CD
-- **CloudinaryAPI** - Media management
-- **Winston** - Logging
-- **Jest** - Testing framework
-
-## 🏗️ Architecture
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   React Client  │◄──►│  Express Server │◄──►│   MongoDB DB    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-    ┌─────────┐              ┌─────────┐           ┌─────────┐
-    │Socket.io│              │ Payment │           │  Email  │
-    │ Client  │              │Gateway  │           │ Service │
-    └─────────┘              └─────────┘           └─────────┘
-```
 
 ## 🚀 Installation
 
@@ -137,7 +107,7 @@ Traditional event management involves multiple disconnected tools for registrati
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/eventmaster-pro.git
+   git clone https://github.com/sandeeprepala/Event-booking-platform.git
    cd eventmaster-pro
    ```
 
