@@ -33,6 +33,7 @@ const Profile = () => {
   if (!user) return <p className='noUser'>User not found.</p>;
 
   return (
+    <div>
     <div className="profile-wrapper">
       
       <div className="profile-left">
@@ -40,6 +41,7 @@ const Profile = () => {
         <h2>Welcome, {user.username?.split(' ')[0]}</h2>
         <p>Here's your profile information.</p>
         {/* <button className="next-btn">→</button> */}
+        <Logout />
       </div>
 
       <div className="profile-right">
@@ -59,6 +61,8 @@ const Profile = () => {
           <label>Joined On</label>
           <input type="text" value={new Date(user.createdAt).toLocaleDateString()} readOnly />
         </form>
+      </div>
+      
       </div>
     </div>
   );

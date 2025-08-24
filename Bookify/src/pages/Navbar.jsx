@@ -19,7 +19,6 @@ const Navbar = () => {
         ) : (
           <Link to="/bookings/my-bookings" className="navbar-link">Bookings</Link>
         )}
-        <Logout />
 
         
       </div>
