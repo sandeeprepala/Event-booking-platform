@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/Profile.css';
+import '../styles/profile.css';
 import { Navigate } from 'react-router-dom';
 import Logout from './Logout';
 const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';

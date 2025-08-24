@@ -68,7 +68,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
 
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
-    console.log(refreshToken);
+    // console.log(refreshToken);
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
     if (!loggedInUser) {
         throw new ApiError("User not found", 404);
