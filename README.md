@@ -6,19 +6,6 @@
 [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-404D59?logo=express)](https://expressjs.com/)
 
-## 📋 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## 🌟 Overview
 
 EventMaster Pro is a full-stack event booking platform that empowers administrators to create, manage, and track events while providing users with a seamless booking experience. The platform supports both virtual and physical events with integrated payment processing, real-time tracking, and comprehensive management tools.
