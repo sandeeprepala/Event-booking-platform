@@ -230,20 +230,6 @@ POST   /api/payments/webhook/stripe   # Stripe webhook
 POST   /api/payments/webhook/paypal   # PayPal webhook
 ```
 
-## 📸 Screenshots
-
-### Admin Dashboard
-![Admin Dashboard](https://via.placeholder.com/800x400?text=Admin+Dashboard)
-
-### Event Creation
-![Event Creation](https://via.placeholder.com/800x400?text=Event+Creation+Form)
-
-### User Booking Flow
-![Booking Flow](https://via.placeholder.com/800x400?text=Booking+Interface)
-
-### Mobile Experience
-![Mobile View](https://via.placeholder.com/400x600?text=Mobile+Interface)
-
 ## 🧪 Testing
 
 ```bash
@@ -260,24 +246,13 @@ npm run test:integration
 npm run test:e2e
 ```
 
-## 🚀 Deployment
-
-### Docker Deployment
-```bash
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Production deployment
-docker-compose -f docker-compose.prod.yml up -d
-```
-
 ### Manual Deployment
 ```bash
 # Build React app
 cd client && npm run build
 
 # Start production server
-npm start
+npm run dev
 ```
 
 ## 🤝 Contributing
@@ -298,31 +273,14 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - **Payment Processing**: 99.9% uptime
 - **Mobile Performance**: 95+ Lighthouse score
 
-## 🎖️ Hackathon Achievements
-
-- 🥇 **1st Place** - Best Full-Stack Application
-- 🏆 **People's Choice Award**
-- 💡 **Most Innovative Solution**
-- 🎨 **Best UI/UX Design**
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## 👨‍💻 Team
 
-- **[Your Name]** - Full Stack Developer
-- **[Team Member 2]** - Frontend Specialist  
-- **[Team Member 3]** - Backend Engineer
-- **[Team Member 4]** - UI/UX Designer
-
-## 🙏 Acknowledgments
-
-- MongoDB for database solutions
-- Stripe for payment processing
-- Material-UI for component library
-- Zoom for virtual event integration
-- Cloudinary for media management
+- **Repala Sandeep** - Backend 
+- **[Team Member 2]** - Frontend 
 
 ---
 
