@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/logout.css'; // create this CSS file for styles
 import axios from 'axios';
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const Logout = () => {
  const handleLogout = async () => {
   try {
@@ -22,7 +22,7 @@ const Logout = () => {
      
 
     const res = await axios.post(
-      "http://localhost:8000/api/v1/users/logout",
+      `${backendURL}/api/v1/users/logout`,
       {}, // body
       {
         headers: {

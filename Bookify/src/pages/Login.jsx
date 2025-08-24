@@ -15,7 +15,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/v1/users/login', {
+      const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+      const res = await axios.post(`${backendURL}/api/v1/users/login`, {
         email: formData.email,
         password: formData.password,
       });

@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../styles/Profile.css';
 import { Navigate } from 'react-router-dom';
 import Logout from './Logout';
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const Profile = () => {
       try {
         const userDataString = localStorage.getItem('bookifyUser');
         const token = userDataString ? JSON.parse(userDataString).accessToken : null;
-        const res = await axios.get('/api/v1/users/profile', {
+        const res = await axios.get(`${backendURL}/api/v1/users/profile`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -64,7 +64,8 @@ const TheatreShows = ({ theatreId }) => {
 
   const fetchShows = async () => {
     try {
-      const res = await axios.get(`/api/v1/theatres/${theatreId}`);
+      const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+      const res = await axios.get(`${backendURL}/api/v1/theatres/${theatreId}`);
       setShows(res.data.data.shows);
     } catch (error) {
       console.error("Error fetching shows:", error);

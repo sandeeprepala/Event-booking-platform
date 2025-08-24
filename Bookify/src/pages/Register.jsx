@@ -13,7 +13,7 @@ const Register = () => {
     city: '',
     role: '',
   });
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -21,7 +21,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/v1/users/register', formData);
+      const res = await axios.post(`${backendURL}/api/v1/users/register`, formData);
 
       toast.success('Registration successful! You can now log in.'); // 🔥 Success toast
       navigate('/login'); // Redirect to login page

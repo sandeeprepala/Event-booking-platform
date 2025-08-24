@@ -2,12 +2,12 @@ import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
 
 const PaymentButton = ({ amount, bookingData }) => {
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   const handlePayment = async () => {
     try {
       // 1. Create order on backend
       const { data } = await axios.post(
-        "http://localhost:5000/api/v1/payments/create-order",
+        `${backendURL}/api/v1/payments/create-order`,
         { amount },
         { withCredentials: true }
       );
@@ -25,7 +25,7 @@ const PaymentButton = ({ amount, bookingData }) => {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              "http://localhost:5000/api/v1/payments/verify-payment",
+              `${backendURL}/api/v1/payments/verify-payment`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,

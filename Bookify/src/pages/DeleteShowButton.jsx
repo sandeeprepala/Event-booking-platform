@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const DeleteShowButton = ({ theatreId, showId, onSuccess }) => {
   const handleDelete = async () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this show?');
@@ -10,7 +10,7 @@ const DeleteShowButton = ({ theatreId, showId, onSuccess }) => {
     const token = userDataString ? JSON.parse(userDataString).accessToken : null;
 
     try {
-      await axios.delete(`/api/v1/shows/${theatreId}/${showId}`, {
+      await axios.delete(`${backendURL}/api/v1/shows/${theatreId}/${showId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

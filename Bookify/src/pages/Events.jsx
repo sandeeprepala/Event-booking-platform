@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Events.css';
 import { Toaster, toast } from "react-hot-toast";
 import { CircularProgress } from '@mui/material'; // Import loader
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const Events = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
@@ -25,7 +25,7 @@ const Events = () => {
         setIsAdmin(role);
         setUserId(id);
 
-        const response = await axios.get('/api/v1/events', {
+        const response = await axios.get(`${backendURL}/api/v1/events`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

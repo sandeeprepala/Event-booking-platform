@@ -3,7 +3,7 @@ import axios from 'axios';
 import booking from './booking';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Theatre.css';
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const Theatre = ({ eventId }) => {
   const navigate = useNavigate();
   const [theatres, setTheatres] = useState([]);
@@ -19,7 +19,7 @@ const Theatre = ({ eventId }) => {
       try {
         const userDataString = localStorage.getItem('bookifyUser');
         const token = userDataString ? JSON.parse(userDataString).accessToken : null;
-        const res = await axios.get('/api/v1/theatres' ,{
+        const res = await axios.get(`${backendURL}/api/v1/theatres` ,{
             headers: {
               'Authorization': `Bearer ${token}`
             }

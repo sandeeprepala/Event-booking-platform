@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/CreateEvent.css'; 
 import { Toaster, toast } from "react-hot-toast";
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const CreateEvent = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -59,7 +59,7 @@ const CreateEvent = () => {
       form.append('coverImage', coverImage);
 
       const response = await axios.post(
-        '/api/v1/admin/create-event',
+        `${backendURL}/api/v1/admin/create-event`,
         form,
         {
           headers: {

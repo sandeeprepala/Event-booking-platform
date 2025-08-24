@@ -20,8 +20,8 @@ const AddShowForm = ({ theatreId }) => {
     try {
       const userDataString = localStorage.getItem('bookifyUser');
       const token = userDataString ? JSON.parse(userDataString).accessToken : null;
-
-      const response = await axios.post(`/api/v1/shows/${theatreId}`, show, {
+      const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+      const response = await axios.post(`${backendURL}/api/v1/shows/${theatreId}`, show, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

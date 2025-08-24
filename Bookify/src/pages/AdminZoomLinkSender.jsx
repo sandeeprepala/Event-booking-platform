@@ -10,13 +10,13 @@ const AdminZoomLinkSender = () => {
   const [zoomLink, setZoomLink] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
+  const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   const userDataString = localStorage.getItem('bookifyUser');
    const token = userDataString ? JSON.parse(userDataString).accessToken : null;
 
   // Fetch theatres on mount
   useEffect(() => {
-    axios.get("/api/v1/theatres", {
+    axios.get(`${backendURL}/api/v1/theatres`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => setTheatres(res.data.data || []))
@@ -40,7 +40,7 @@ const AdminZoomLinkSender = () => {
     setLoading(true);
     setMessage("");
     try {
-      await axios.post("/api/v1/admin/sendLink", {
+      await axios.post(`${backendURL}/api/v1/admin/sendLink`, {
         theatreId: selectedTheatre,
         showId: selectedShow,
         zoomLink

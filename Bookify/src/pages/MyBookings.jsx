@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect ,useState} from 'react'
 import axios from 'axios'
 import '../styles/MyBookings.css'
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const MyBookings = () => {
   const [yourBookings, setYourBookings] = useState([])
   const[seats,setSeats] = useState([])
@@ -9,7 +10,7 @@ const MyBookings = () => {
     const fetchBookedSeats = async () => {
       const userDataString = localStorage.getItem('bookifyUser');
       const token = userDataString ? JSON.parse(userDataString).accessToken : null;
-      const res = await axios.get('/api/v1/bookings/my-bookings', {
+      const res = await axios.get(`${backendURL}/api/v1/bookings/my-bookings`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       const reversedData = res.data.data.slice().reverse();   

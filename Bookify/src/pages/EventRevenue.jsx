@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import '../styles/EventRevenue.css'; // Import your CSS
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
 const EventRevenue = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState('');
@@ -14,7 +14,7 @@ const EventRevenue = () => {
         const userDataString = localStorage.getItem('bookifyUser');
         const token = userDataString ? JSON.parse(userDataString).accessToken : null;
 
-        const res = await axios.get('/api/v1/events', {
+        const res = await axios.get(`${backendURL}/api/v1/events`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -51,7 +51,7 @@ const EventRevenue = () => {
             const token = userDataString ? JSON.parse(userDataString).accessToken : null;
 
             const res = await axios.post(
-              '/api/v1/admin/revenue',
+              `${backendURL}/api/v1/admin/revenue`,
               { eventId: selectedEvent },
               {
                 headers: {

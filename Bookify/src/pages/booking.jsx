@@ -10,13 +10,13 @@ const Booking = ({ showId, theatreId }) => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const rows = ['A','B','C','D','E','F','G','H','I','J'];
   const seatsPerRow = 10;
-
+const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   useEffect(() => {
     const fetchBookedSeats = async () => {
       try {
         const userDataString = localStorage.getItem('bookifyUser');
         const token = userDataString ? JSON.parse(userDataString).accessToken : null;
-        const response = await axios.get(`/api/v1/theatres/${theatreId}`, {
+        const response = await axios.get(`${backendURL}/api/v1/theatres/${theatreId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -48,7 +48,7 @@ const Booking = ({ showId, theatreId }) => {
 
       // 1. Create Razorpay order
       const { data } = await axios.post(
-        '/api/v1/payments/create-order',
+        `${backendURL}/api/v1/payments/create-order`,
         { amount: totalAmount },
         { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
@@ -66,7 +66,7 @@ const Booking = ({ showId, theatreId }) => {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              '/api/v1/payments/verify-payment',
+              `${backendURL}/api/v1/payments/verify-payment`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -78,7 +78,7 @@ const Booking = ({ showId, theatreId }) => {
             if (verifyRes.data.success) {
               // Book seats after successful payment
               await axios.post(
-                '/api/v1/bookings/book',
+                `${backendURL}/api/v1/bookings/book`,
                 { theatreId, showId, selectedSeats },
                 { headers: { Authorization: `Bearer ${token}` } }
               );
